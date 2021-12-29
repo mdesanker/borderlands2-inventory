@@ -5,13 +5,19 @@ const WeaponSchema = new Schema({
   name: { type: String, required: true, maxlength: 100 },
   description: { type: String },
   sources: { type: String },
-  type: { type: Schema.Types.ObjectId, ref: "Type", required: true },
+  type: { type: mongoose.Types.ObjectId, ref: "Type", required: true },
   manufacturer: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "Manufacturer",
     required: true,
   },
-  element: [{ type: Schema.Types.ObjectId, ref: "Element" }],
+  element: [{ type: mongoose.Types.ObjectId, ref: "Element" }],
+  rarity: {
+    type: mongoose.Types.ObjectId,
+    ref: "Rarity",
+    required: true,
+    maxlength: 100,
+  },
 });
 
 // Virtual for weapon's URL
