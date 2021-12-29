@@ -1,8 +1,18 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
 }
 
-a {
-  color: #00B7FF;
+html {
+  font-size: 18px;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+body {
+  width: 100%;
+  /* Footer placement */
+  min-height: 100vh;
+  position: relative;
 }
