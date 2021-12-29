@@ -1,5 +1,10 @@
 const Weapon = require("../models/weapon");
 
+// Display home page
+exports.index = function (req, res, next) {
+  res.send("NOT IMPLEMENTED: Site home page");
+};
+
 // Display list of all weapons
 exports.weaponList = function (req, res, next) {
   res.send("NOT IMPLEMENTED: Weapon list");
