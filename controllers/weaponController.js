@@ -1,5 +1,8 @@
 const Weapon = require("../models/weapon");
 const Manufacturer = require("../models/manufacturer");
+const Element = require("../models/element");
+const Type = require("../models/type");
+const Rarity = require("../models/rarity");
 
 const async = require("async");
 
@@ -14,11 +17,23 @@ exports.index = async function (req, res, next) {
       manufacturerCount: function (cb) {
         Manufacturer.countDocuments({}, cb);
       },
+      typeCount: function (cb) {
+        Type.countDocuments({}, cb);
+      },
+      elementCount: function (cb) {
+        Element.countDocuments({}, cb);
+      },
+      rarityCount: function (cb) {
+        Rarity.countDocuments({}, cb);
+      },
     });
   } catch (err) {
     return next(err);
   }
-  res.render("index", { title: "Borderlands 2", data: results });
+  res.render("index", {
+    title: "Borderlands 2 - Database",
+    data: results,
+  });
 };
 
 // Display list of all weapons
