@@ -1,8 +1,24 @@
 const Weapon = require("../models/weapon");
+const Manufacturer = require("../models/manufacturer");
+
+const async = require("async");
 
 // Display home page
 exports.index = function (req, res, next) {
-  res.render("index", { title: "Borderlands 2" });
+  async.parallel(
+    {
+      weaponCount: function (cb) {
+        Weapon.countDocuments({}, cb);
+      },
+      manufacturerCount: function (cb) {
+        Manufacturer.countDocuments({}, cb);
+      },
+    },
+    function (err, results) {
+      console.log(results);
+      res.render("index", { title: "Borderlands 2", data: results });
+    }
+  );
 };
 
 // Display list of all weapons
