@@ -37,8 +37,19 @@ exports.index = async function (req, res, next) {
 };
 
 // Display list of all weapons
-exports.weaponList = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon list");
+exports.weaponList = async function (req, res, next) {
+  let weaponList;
+  try {
+    weaponList = await Weapon.find(
+      {},
+      "name description manufacturer type element rarity"
+    )
+      .sort({ name: 1 })
+      .populate("manufacturer type element rarity");
+  } catch (err) {
+    return next(err);
+  }
+  res.render("weaponList", { title: "Weapon List", weaponList: weaponList });
 };
 
 // Display detail for specific weapon
