@@ -9,4 +9,21 @@ html
     link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    header 
+      nav 
+        a(href="/catalog")
+          img#logo(src="../images/logo.png" alt="logo") 
+        ul 
+          li 
+              a(href="/catalog") Home
+          li 
+            a(href="/catalog/weapons") Weapons
+          li 
+            a(href="/catalog/manufacturers") Manufacturers 
+          li 
+            a(href="/catalog/types") Types 
+          li 
+            a(href="/catalog/elements") Elements 
+          li 
+            a(href="/catalog/rarities") Rarities
     block content

@@ -16,3 +16,31 @@ body {
   min-height: 100vh;
   position: relative;
 }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 1rem;
+  border-bottom: 1px solid lightgray;
+}
+
+nav ul {
+  display: flex;
+  gap: 15px;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+}
+
+#logo {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+}
