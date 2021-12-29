@@ -2,7 +2,11 @@ const Weapon = require("../models/weapon");
 
 // Display home page
 exports.index = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Site home page");
+  // res.send("NOT IMPLEMENTED: Site home page");
+  res.render("index", {
+    title: "Borderlands 2 - Database",
+    subtitle: "Weapons List",
+  });
 };
 
 // Display list of all weapons
