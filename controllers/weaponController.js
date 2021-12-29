@@ -4,21 +4,21 @@ const Manufacturer = require("../models/manufacturer");
 const async = require("async");
 
 // Display home page
-exports.index = function (req, res, next) {
-  async.parallel(
-    {
+exports.index = async function (req, res, next) {
+  let results;
+  try {
+    results = await async.parallel({
       weaponCount: function (cb) {
         Weapon.countDocuments({}, cb);
       },
       manufacturerCount: function (cb) {
         Manufacturer.countDocuments({}, cb);
       },
-    },
-    function (err, results) {
-      console.log(results);
-      res.render("index", { title: "Borderlands 2", data: results });
-    }
-  );
+    });
+  } catch (err) {
+    return next(err);
+  }
+  res.render("index", { title: "Borderlands 2", data: results });
 };
 
 // Display list of all weapons
