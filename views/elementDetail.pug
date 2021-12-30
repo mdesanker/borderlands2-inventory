@@ -1,0 +1,14 @@
+extends layout
+
+block content 
+  h1= title 
+
+  h2= elementDetail.element.name 
+
+  if (elementDetail.element.description)
+    p= elementDetail.element.description
+
+  h3 Weapons with #[em #{elementDetail.element.name}] element
+  ul
+    each weapon in elementDetail.weapons 
+      li #{weapon.name}

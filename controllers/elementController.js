@@ -1,4 +1,7 @@
 const Element = require("../models/element");
+const Weapon = require("../models/weapon");
+
+const async = require("async");
 
 // Display list of all elements
 exports.elementList = async function (req, res, next) {
@@ -15,6 +18,29 @@ exports.elementList = async function (req, res, next) {
 };
 
 // Display detail page for specific element
-exports.elementDetail = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Element detail: " + req.params.id);
+exports.elementDetail = async function (req, res, next) {
+  let elementDetail;
+  try {
+    elementDetail = await async.parallel({
+      element: function (cb) {
+        Element.findById(req.params.id, cb);
+      },
+      weapons: function (cb) {
+        Weapon.find({ element: req.params.id }, cb).sort({ name: 1 });
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+  // Element not found
+  if (elementDetail.element == null) {
+    const err = new Error("Element not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Successful, so render
+  res.render("elementDetail", {
+    title: "Element Detail",
+    elementDetail: elementDetail,
+  });
 };
