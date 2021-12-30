@@ -1,8 +1,14 @@
 const Type = require("../models/type");
 
 // Display list of all types
-exports.typeList = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Type list");
+exports.typeList = async function (req, res, next) {
+  let typeList;
+  try {
+    typeList = await Type.find({}).sort({ name: 1 });
+  } catch (err) {
+    return next(err);
+  }
+  res.render("typeList", { title: "Type List", typeList: typeList });
 };
 
 // Display detail for specific type
