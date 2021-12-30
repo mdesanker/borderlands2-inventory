@@ -1,4 +1,5 @@
 const Manufacturer = require("../models/manufacturer");
+const Weapon = require("../models/weapon");
 
 // Display list of all manufacturers
 exports.manufacturerList = async function (req, res, next) {
@@ -15,8 +16,31 @@ exports.manufacturerList = async function (req, res, next) {
 };
 
 // Display manufacturer details
-exports.manufacturerDetail = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer detail: " + req.params.id);
+exports.manufacturerDetail = async function (req, res, next) {
+  let manufacturerDetail;
+  try {
+    manufacturerDetail = await async.parallel({
+      manufacturer: function (cb) {
+        Manufacturer.findById(req.params.id);
+      },
+      weapons: function (cb) {
+        Weapon.find({ manufacturer: req.params.id }).sort({ name: 1 });
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+  // No result found
+  if (manufacturerDetail.manufacturer == null) {
+    const err = new Error("Manufacturer not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Successful, so render
+  res.render("manufacturerDetails", {
+    title: "Manufacturer Detail",
+    manufacturerDetail: manufacturerDetail,
+  });
 };
 
 // Display manufacturer create form on GET
