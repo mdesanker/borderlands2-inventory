@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ManufacturerSchema = new Schema({
   name: { type: String, required: true, maxlength: 100 },
+  description: { type: String },
 });
 
 // Virutal for manufacturer URL

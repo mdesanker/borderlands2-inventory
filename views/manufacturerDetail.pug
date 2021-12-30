@@ -5,8 +5,8 @@ block content
 
   h2= detail.manufacturer.name 
 
-  if (detail.manufacturer.description)
-    p= detail.manufacturer.description
+  p. 
+    #{detail.manufacturer.description}
 
   h3 Weapons produced by #[em #{detail.manufacturer.name}]
   ul

@@ -14,6 +14,7 @@ const TypeSchema = new Schema({
       "Rocket Launcher",
     ],
   },
+  description: { type: String },
 });
 
 // Virtual for type's URL

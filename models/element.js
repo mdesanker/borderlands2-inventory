@@ -6,6 +6,8 @@ const ElementSchema = new Schema({
     type: String,
     enum: ["Corrosive", "Incendiary", "Explosive", "Shock", "Slag"],
   },
+  description: { type: String },
+  color: { type: String },
 });
 
 // Virtual for element URL

@@ -5,8 +5,8 @@ block content
 
   h2= detail.element.name 
 
-  if (detail.element.description)
-    p= detail.element.description
+  p. 
+    #{detail.element.description}
 
   h3 Weapons with #[em #{detail.element.name}] element
   ul
