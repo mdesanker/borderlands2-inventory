@@ -3,12 +3,12 @@ extends layout
 block content 
   h1= title 
 
-  h2= elementDetail.element.name 
+  h2= detail.element.name 
 
-  if (elementDetail.element.description)
-    p= elementDetail.element.description
+  if (detail.element.description)
+    p= detail.element.description
 
-  h3 Weapons with #[em #{elementDetail.element.name}] element
+  h3 Weapons with #[em #{detail.element.name}] element
   ul
-    each weapon in elementDetail.weapons 
+    each weapon in detail.weapons 
       li #{weapon.name}

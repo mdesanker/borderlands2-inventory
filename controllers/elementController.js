@@ -13,7 +13,7 @@ exports.elementList = async function (req, res, next) {
   }
   res.render("elementList", {
     title: "Element List",
-    elementList: elementList,
+    list: elementList,
   });
 };
 
@@ -41,6 +41,6 @@ exports.elementDetail = async function (req, res, next) {
   // Successful, so render
   res.render("elementDetail", {
     title: "Element Detail",
-    elementDetail: elementDetail,
+    detail: elementDetail,
   });
 };

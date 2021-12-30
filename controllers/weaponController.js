@@ -46,7 +46,7 @@ exports.weaponList = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-  res.render("weaponList", { title: "Weapon List", weaponList: weaponList });
+  res.render("weaponList", { title: "Weapon List", list: weaponList });
 };
 
 // Display detail for specific weapon
@@ -67,8 +67,8 @@ exports.weaponDetail = async function (req, res, next) {
   }
   // Successful, so render
   res.render("weaponDetail", {
-    title: "Weapon detail",
-    weaponDetail: weaponDetail,
+    title: "Weapon Detail",
+    detail: weaponDetail,
   });
 };
 

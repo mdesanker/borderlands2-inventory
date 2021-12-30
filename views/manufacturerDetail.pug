@@ -3,12 +3,12 @@ extends layout
 block content 
   h1= title 
 
-  h2= manufacturerDetail.manufacturer.name 
+  h2= detail.manufacturer.name 
 
-  if (manufacturerDetail.manufacturer.description)
-    p= manufacturerDetail.manufacturer.description
+  if (detail.manufacturer.description)
+    p= detail.manufacturer.description
 
-  h3 Weapons produced by #[em #{manufacturerDetail.manufacturer.name}]
+  h3 Weapons produced by #[em #{detail.manufacturer.name}]
   ul
-    each weapon in manufacturerDetail.weapons 
+    each weapon in detail.weapons 
       li #{weapon.name}

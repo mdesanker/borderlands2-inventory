@@ -13,7 +13,7 @@ exports.manufacturerList = async function (req, res, next) {
   }
   res.render("manufacturerList", {
     title: "Manufacturer List",
-    manufacturerList: manufacturerList,
+    list: manufacturerList,
   });
 };
 
@@ -41,7 +41,7 @@ exports.manufacturerDetail = async function (req, res, next) {
   // Successful, so render
   res.render("manufacturerDetail", {
     title: "Manufacturer Detail",
-    manufacturerDetail: manufacturerDetail,
+    detail: manufacturerDetail,
   });
 };
 

@@ -11,7 +11,7 @@ exports.rarityList = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-  res.render("rarityList", { title: "Rarity List", rarityList: rarityList });
+  res.render("rarityList", { title: "Rarity List", list: rarityList });
 };
 
 // Display details for specific rarity

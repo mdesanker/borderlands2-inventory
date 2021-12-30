@@ -11,7 +11,7 @@ exports.typeList = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-  res.render("typeList", { title: "Type List", typeList: typeList });
+  res.render("typeList", { title: "Type List", list: typeList });
 };
 
 // Display detail for specific type
