@@ -1,6 +1,12 @@
 extends layout
 
 block content 
+  style.
+    h2,
+    span {
+      color: #{detail.element.color};
+    }
+
   h1= title 
 
   h2= detail.element.name 
@@ -8,7 +14,12 @@ block content
   p. 
     #{detail.element.description}
 
-  h3 Weapons with #[em #{detail.element.name}] element
+  h3 Weapons with 
+    span #[em #{detail.element.name}] 
+    | element
+    
   ul
     each weapon in detail.weapons 
       li #{weapon.name}
+    else 
+      li No weapons of this element

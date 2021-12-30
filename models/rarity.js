@@ -5,6 +5,7 @@ const RaritySchema = new Schema({
   name: { type: String, required: true, maxlength: 100 },
   level: { type: String, required: true },
   description: { type: String },
+  color: { type: String },
 });
 
 // Virutal for rarity URL
