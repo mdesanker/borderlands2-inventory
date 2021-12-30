@@ -1,8 +1,17 @@
 const Manufacturer = require("../models/manufacturer");
 
 // Display list of all manufacturers
-exports.manufacturerList = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer list");
+exports.manufacturerList = async function (req, res, next) {
+  let manufacturerList;
+  try {
+    manufacturerList = await Manufacturer.find({}).sort({ name: 1 });
+  } catch (err) {
+    return next(err);
+  }
+  res.render("manufacturerList", {
+    title: "Manufacturer List",
+    manufacturerList: manufacturerList,
+  });
 };
 
 // Display manufacturer details

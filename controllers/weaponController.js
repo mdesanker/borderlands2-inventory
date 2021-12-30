@@ -40,10 +40,7 @@ exports.index = async function (req, res, next) {
 exports.weaponList = async function (req, res, next) {
   let weaponList;
   try {
-    weaponList = await Weapon.find(
-      {},
-      "name description manufacturer type element rarity"
-    )
+    weaponList = await Weapon.find({})
       .sort({ name: 1 })
       .populate("manufacturer type element rarity");
   } catch (err) {

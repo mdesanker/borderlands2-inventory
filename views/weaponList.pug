@@ -12,8 +12,11 @@ block content
           li #[strong Type]: #{weapon.type.name}
           li #[strong Manufacturer]: #{weapon.manufacturer.name}
           li #[strong Elements]:
-          each element in weapon.element 
-            | #{element.name} 
+          if weapon.element
+            each element in weapon.element 
+              | #{element.name} 
+          else 
+            | None
           li #[strong Rarity]: #{weapon.rarity.name}
 
     else 
