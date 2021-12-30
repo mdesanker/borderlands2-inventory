@@ -1,0 +1,14 @@
+extends layout
+
+block content 
+  h1= title 
+
+  h2= detail.rarity.name 
+
+  if (detail.rarity.description)
+    p= detail.rarity.description
+
+  h3 Weapons with #[em #{detail.rarity.name}] rarity
+  ul
+    each weapon in detail.weapons 
+      li #{weapon.name}
