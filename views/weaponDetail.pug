@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  h2= weaponDetail.name
+
+  ul
+    li #[strong Type]: #{weaponDetail.type.name}
+    li #[strong Manufacturer]: #{weaponDetail.manufacturer.name}
+    li #[strong Elements]:
+    if weaponDetail.element
+      each element in weaponDetail.element 
+        | #{element.name} 
+    else 
+      | None
+    li #[strong Rarity]: #{weaponDetail.rarity.name}

@@ -50,8 +50,26 @@ exports.weaponList = async function (req, res, next) {
 };
 
 // Display detail for specific weapon
-exports.weaponDetail = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon detail: " + req.params.id);
+exports.weaponDetail = async function (req, res, next) {
+  let weaponDetail;
+  try {
+    weaponDetail = await Weapon.findById(req.params.id).populate(
+      "type manufacturer element rarity"
+    );
+  } catch (err) {
+    return next(err);
+  }
+  // Not found
+  if (weaponDetail == null) {
+    const err = new Error("Weapon not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Successful, so render
+  res.render("weaponDetail", {
+    title: "Weapon detail",
+    weaponDetail: weaponDetail,
+  });
 };
 
 // Display weapon create form on GET
