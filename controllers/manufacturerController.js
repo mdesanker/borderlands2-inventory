@@ -1,6 +1,8 @@
 const Manufacturer = require("../models/manufacturer");
 const Weapon = require("../models/weapon");
 
+const async = require("async");
+
 // Display list of all manufacturers
 exports.manufacturerList = async function (req, res, next) {
   let manufacturerList;
@@ -21,10 +23,10 @@ exports.manufacturerDetail = async function (req, res, next) {
   try {
     manufacturerDetail = await async.parallel({
       manufacturer: function (cb) {
-        Manufacturer.findById(req.params.id);
+        Manufacturer.findById(req.params.id, cb);
       },
       weapons: function (cb) {
-        Weapon.find({ manufacturer: req.params.id }).sort({ name: 1 });
+        Weapon.find({ manufacturer: req.params.id }, cb).sort({ name: 1 });
       },
     });
   } catch (err) {
@@ -37,7 +39,7 @@ exports.manufacturerDetail = async function (req, res, next) {
     return next(err);
   }
   // Successful, so render
-  res.render("manufacturerDetails", {
+  res.render("manufacturerDetail", {
     title: "Manufacturer Detail",
     manufacturerDetail: manufacturerDetail,
   });

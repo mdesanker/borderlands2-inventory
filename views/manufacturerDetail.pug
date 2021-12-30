@@ -1,0 +1,14 @@
+extends layout
+
+block content 
+  h1= title 
+
+  h2= manufacturerDetail.manufacturer.name 
+
+  if (manufacturerDetail.manufacturer.description)
+    p= manufacturerDetail.manufacturer.description
+
+  h3 Weapons produced by #[em #{manufacturerDetail.manufacturer.name}]
+  ul
+    each weapon in manufacturerDetail.weapons 
+      li #{weapon.name}
