@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const RaritySchema = new Schema({
   name: { type: String, required: true, maxlength: 100 },
+  level: { type: String, required: true },
 });
 
 // Virutal for rarity URL

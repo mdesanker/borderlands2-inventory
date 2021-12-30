@@ -1,0 +1,14 @@
+extends layout
+
+block content 
+  h1= title 
+
+  ul 
+    each rarity in rarityList 
+      li 
+        a(href=rarity.url) #{rarity.name}
+        if rarity.description 
+          p #{rarity.description}
+
+    else 
+      li There are no rarities.
