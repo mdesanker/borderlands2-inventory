@@ -73,8 +73,29 @@ exports.weaponDetail = async function (req, res, next) {
 };
 
 // Display weapon create form on GET
-exports.weaponCreateGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon create GET");
+exports.weaponCreateGet = async function (req, res, next) {
+  let results;
+  try {
+    results = await async.parallel({
+      types: function (cb) {
+        Type.find({}, cb).sort({ name: 1 });
+      },
+      elements: function (cb) {
+        Element.find({}, cb).sort({ name: 1 });
+      },
+      rarities: function (cb) {
+        Rarity.find({}, cb).sort({ name: 1 });
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+  res.render("weaponForm", {
+    title: "Create Weapon",
+    types: results.types,
+    elements: results.elements,
+    rarities: results.rarities,
+  });
 };
 
 // Display weapon create on POST
