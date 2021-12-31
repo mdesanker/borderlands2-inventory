@@ -17,19 +17,19 @@ router.get("/", weaponController.index);
 router.get("/weapon/create", weaponController.weaponCreateGet);
 
 // POST request for creating weapon
-router.get("/weapon/create", weaponController.weaponCreatePost);
+router.post("/weapon/create", weaponController.weaponCreatePost);
 
 // GET request to delete weapon
 router.get("/weapon/:id/delete", weaponController.weaponDeleteGet);
 
 // POST request to delete weapon
-router.get("/weapon/:id/delete", weaponController.weaponDeletePost);
+router.post("/weapon/:id/delete", weaponController.weaponDeletePost);
 
 // GET request to update weapon
 router.get("/weapon/:id/update", weaponController.weaponUpdateGet);
 
 // POST request to update weapon
-router.get("/weapon/:id/update", weaponController.weaponUpdatePost);
+router.post("/weapon/:id/update", weaponController.weaponUpdatePost);
 
 // GET request for specific weapon
 router.get("/weapon/:id", weaponController.weaponDetail);
@@ -46,7 +46,7 @@ router.get(
 );
 
 // POST request for creating manufacturer
-router.get(
+router.post(
   "/manufacturer/create",
   manufacturerController.manufacturerCreatePost
 );
@@ -58,7 +58,7 @@ router.get(
 );
 
 // POST request to delete manufacturer
-router.get(
+router.post(
   "/manufacturer/:id/delete",
   manufacturerController.manufacturerDeletePost
 );
@@ -70,7 +70,7 @@ router.get(
 );
 
 // POST request to update manufacturer
-router.get(
+router.post(
   "/manufacturer/:id/update",
   manufacturerController.manufacturerUpdatePost
 );

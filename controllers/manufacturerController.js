@@ -53,27 +53,28 @@ exports.manufacturerCreateGet = function (req, res, next) {
 
 // Display manufacturer create on POST
 exports.manufacturerCreatePost = [
+  (req, res, next) => {
+    console.log("POST STARTING");
+    next();
+  },
   // Validate and sanitize the fields
   body("name", "Manufacturer name required")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("description").trim().escape(),
+  // body("description").optional({ checkFalsy: true }).trim().escape(),
 
   // Process request after validation and sanitization
   (req, res, next) => {
     // Extract validation errors from req
-    const errors = validationErrors(req);
+    const errors = validationResult(req);
+    console.log("ERRORS", errors);
 
     // Create a genre object with escaped and trimmed data
-    const newManufacturer = {
+    const manufacturer = new Manufacturer({
       name: req.body.name,
-    };
-
-    // Add description if included
-    if (req.body.description) newManufacturer.description = description;
-
-    const manufacturer = new Manufacturer(newManufacturer);
+      description: req.body.description,
+    });
 
     if (!errors.isEmpty()) {
       // There are errors. Render form with sanitized values/error msgs
@@ -90,13 +91,19 @@ exports.manufacturerCreatePost = [
         err,
         foundManufacturer
       ) {
-        if (err) next(err);
+        if (err) {
+          console.log("ERROR FINDING MANUFAC");
+          return next(err);
+        }
         if (foundManufacturer) {
           // Manufacturer exists, redirect to details
           res.redirect(foundManufacturer.url);
         } else {
           manufacturer.save(function (err) {
-            if (err) next(err);
+            if (err) {
+              console.log("ERROR SAVING MANUFAC");
+              return next(err);
+            }
             // Manufacturer saved, redirect to details
             res.redirect(manufacturer.url);
           });
