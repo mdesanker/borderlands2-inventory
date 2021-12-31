@@ -47,7 +47,7 @@ exports.manufacturerDetail = async function (req, res, next) {
 
 // Display manufacturer create form on GET
 exports.manufacturerCreateGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer create GET");
+  res.render("manufacturerForm", { title: "Create Manufacturer" });
 };
 
 // Display manufacturer create on POST
