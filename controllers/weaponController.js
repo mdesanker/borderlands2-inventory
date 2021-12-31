@@ -84,7 +84,7 @@ exports.weaponCreateGet = async function (req, res, next) {
         Element.find({}, cb).sort({ name: 1 });
       },
       rarities: function (cb) {
-        Rarity.find({}, cb).sort({ name: 1 });
+        Rarity.find({}, cb).sort({ level: 1 });
       },
     });
   } catch (err) {
