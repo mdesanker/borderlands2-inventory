@@ -8,7 +8,9 @@ block content
   p. 
     #{detail.manufacturer.description}
 
-  h3 Weapons produced by #[em #{detail.manufacturer.name}]
+  h3 Weapons made by #[em #{detail.manufacturer.name}]
   ul
     each weapon in detail.weapons 
       li #{weapon.name}
+    else 
+      li There are no weapons currently in the database.

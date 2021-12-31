@@ -7,8 +7,6 @@ block content
     each manufacturer in list 
       li 
         a(href=manufacturer.url) #{manufacturer.name}
-        if manufacturer.description 
-          p #{manufacturer.description}
 
     else 
       li There are no manufacturers.
