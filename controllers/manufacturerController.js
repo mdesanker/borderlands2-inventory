@@ -2,6 +2,7 @@ const Manufacturer = require("../models/manufacturer");
 const Weapon = require("../models/weapon");
 
 const async = require("async");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all manufacturers
 exports.manufacturerList = async function (req, res, next) {
@@ -51,9 +52,59 @@ exports.manufacturerCreateGet = function (req, res, next) {
 };
 
 // Display manufacturer create on POST
-exports.manufacturerCreatePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer create POST");
-};
+exports.manufacturerCreatePost = [
+  // Validate and sanitize the fields
+  body("name", "Manufacturer name required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description").trim().escape(),
+
+  // Process request after validation and sanitization
+  (req, res, next) => {
+    // Extract validation errors from req
+    const errors = validationErrors(req);
+
+    // Create a genre object with escaped and trimmed data
+    const newManufacturer = {
+      name: req.body.name,
+    };
+
+    // Add description if included
+    if (req.body.description) newManufacturer.description = description;
+
+    const manufacturer = new Manufacturer(newManufacturer);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form with sanitized values/error msgs
+      res.render("manufacturerForm", {
+        title: "Create Manufacturer",
+        manufacturer: manufacturer,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form valid
+      // Check if manufacturer already exists
+      Manufacturer.findOne({ name: req.body.name }).exec(function (
+        err,
+        foundManufacturer
+      ) {
+        if (err) next(err);
+        if (foundManufacturer) {
+          // Manufacturer exists, redirect to details
+          res.redirect(foundManufacturer.url);
+        } else {
+          manufacturer.save(function (err) {
+            if (err) next(err);
+            // Manufacturer saved, redirect to details
+            res.redirect(manufacturer.url);
+          });
+        }
+      });
+    }
+  },
+];
 
 // Display manufacturer delete form on GET
 exports.manufacturerDeleteGet = function (req, res, next) {
