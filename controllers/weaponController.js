@@ -211,7 +211,10 @@ exports.weaponDeleteGet = async function (req, res, next) {
 
 // Display weapon delete on POST
 exports.weaponDeletePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon delete POST");
+  Weapon.findByIdAndRemove(req.body.weaponid, function deleteWeapon(err) {
+    if (err) next(err);
+    res.redirect("/catalog/weapons");
+  });
 };
 
 // Display weapon update form on GET
