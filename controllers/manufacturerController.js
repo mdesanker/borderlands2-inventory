@@ -3,6 +3,7 @@ const Weapon = require("../models/weapon");
 
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const manufacturer = require("../models/manufacturer");
 
 // Display list of all manufacturers
 exports.manufacturerList = async function (req, res, next) {
@@ -39,6 +40,7 @@ exports.manufacturerDetail = async function (req, res, next) {
     err.status = 404;
     return next(err);
   }
+  console.log("DETAIL", manufacturerDetail.manufacturer.url);
   // Successful, so render
   res.render("manufacturerDetail", {
     title: "Manufacturer Detail",
@@ -109,7 +111,25 @@ exports.manufacturerCreatePost = [
 
 // Display manufacturer delete form on GET
 exports.manufacturerDeleteGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer delete GET");
+  async.parallel(
+    {
+      manufacturer: function (cb) {
+        Manufacturer.findById(req.params.id).exec(cb);
+      },
+      weapons: function (cb) {
+        Weapon.find({ manufacturer: req.params.id }).exec(cb);
+      },
+    },
+    function (err, results) {
+      if (err) next(err);
+      if (results.manufacturer == null) res.redirect("/catalog/manufacturers");
+      res.render("manufacturerDelete", {
+        title: "Delete Manufacturer",
+        manufacturer: results.manufacturer,
+        weapons: results.weapons,
+      });
+    }
+  );
 };
 
 // Display manufacturer delete on POST

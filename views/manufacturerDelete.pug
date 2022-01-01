@@ -1,0 +1,23 @@
+extends layout
+
+block content 
+  h1= title 
+
+  h2= manufacturer.name 
+
+  p. 
+    #{manufacturer.description}
+
+  if weapons.length
+
+    h3 Weapons made by #[em #{manufacturer.name}]
+    ul
+      each weapon in weapons 
+        li #{weapon.name}
+  else 
+    p Do you really want to delete this manufacturer?
+
+    form(method="POST" action="")
+      input#manufacturerid(type="hidden" name="manufacturerid" required="true" value=manufacturer._id)
+
+      button(type="submit") Delete
