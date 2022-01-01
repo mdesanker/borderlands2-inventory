@@ -10,7 +10,9 @@ block content
 
   if weapons.length
 
-    h3 Weapons made by #[em #{manufacturer.name}]
+    p Delete the following weapons before attempting to delete this manufacturer.
+
+    h3 Weapons
     ul
       each weapon in weapons 
         li #{weapon.name}
