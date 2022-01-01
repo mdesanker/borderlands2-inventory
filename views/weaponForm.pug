@@ -6,21 +6,25 @@ block content
   form(method="POST" action="")
     .form-group
       label(for="name") Name: 
-      input#name(type="text" placeholder="Name" name="name" required="true" value=(weapon === undefined ? "" : weapon.name))
+      input#name(type="text" placeholder="Name" name="name" value=(weapon === undefined ? "" : weapon.name))
+
     .form-group 
       label(for="description") Description:
       input#description(type="text" placeholder="Description" name="description" value=(weapon === undefined ? "" : weapon.description))
+
     .form-group 
       label(for="manufacturer") Manufacturer:
       input#manufacturer(type="text" placeholder="Manufacturer" name="manufacturer" value=(weapon === undefined ? "" : weapon.manufacturer))
+
     .form-group 
       label(for="type") Type:
       select#type(type="select" placeholder="Select type" name="type" required="true" value=(weapon === undefined ? "" : weapon.type))
-        for type in types
+        for type in types 
           if weapon
             option(value=type._id selected=(type._id.toString() === weapon.type._id.toString() ? "selected" : false)) #{type.name}
           else 
             option(value=type._id) #{type.name}
+
     .form-group 
       label(for="element") Elements:
       div 
@@ -28,6 +32,7 @@ block content
           div(style="display: inline; padding-right: 10px;")
             input(type="checkbox" name="element" id=element._id value=element._id checked=element.checked)
             label(for=element._id) #{element.name}
+
     .form-group 
       label(for="rarity") Rarity:
       select#rarity(type="select" placeholder="Select rarity" name="rarity" required="true" value=(weapon === undefined ? "" : weapon.rarity))
@@ -36,6 +41,7 @@ block content
             option(value=rarity._id selected=(rarity._id.toString() === weapon.rarity._id.toString() ? "selected" : false)) #{rarity.name}
           else 
             option(value=rarity._id) #{rarity.name}
+
     button(type="submit") Submit
 
   if errors 

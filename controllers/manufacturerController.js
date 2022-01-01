@@ -53,16 +53,12 @@ exports.manufacturerCreateGet = function (req, res, next) {
 
 // Display manufacturer create on POST
 exports.manufacturerCreatePost = [
-  (req, res, next) => {
-    console.log("POST STARTING");
-    next();
-  },
   // Validate and sanitize the fields
   body("name", "Manufacturer name required")
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  // body("description").optional({ checkFalsy: true }).trim().escape(),
+  body("description").optional({ checkFalsy: true }).trim().escape(),
 
   // Process request after validation and sanitization
   (req, res, next) => {
@@ -92,7 +88,6 @@ exports.manufacturerCreatePost = [
         foundManufacturer
       ) {
         if (err) {
-          console.log("ERROR FINDING MANUFAC");
           return next(err);
         }
         if (foundManufacturer) {
@@ -101,7 +96,6 @@ exports.manufacturerCreatePost = [
         } else {
           manufacturer.save(function (err) {
             if (err) {
-              console.log("ERROR SAVING MANUFAC");
               return next(err);
             }
             // Manufacturer saved, redirect to details

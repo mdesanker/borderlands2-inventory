@@ -6,6 +6,8 @@ const Rarity = require("../models/rarity");
 
 const async = require("async");
 
+const { body, validationResult } = require("express-validator");
+
 // Display home page
 exports.index = async function (req, res, next) {
   let results;
@@ -99,9 +101,95 @@ exports.weaponCreateGet = async function (req, res, next) {
 };
 
 // Display weapon create on POST
-exports.weaponCreatePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon create POST");
-};
+exports.weaponCreatePost = [
+  // Convert elements to an array
+  (req, res, next) => {
+    if (!(req.body.element instanceof Array)) {
+      if (typeof req.body.element === "undefined") {
+        req.body.element = [];
+      } else {
+        req.body.element = new Array(req.body.element);
+      }
+      console.log(req.body);
+    }
+    next();
+  },
+
+  // Validate and sanitize
+  body("name", "Name is required").trim().isLength({ min: 1 }).escape(),
+  body("description").optional({ checkFalsy: true }).trim().escape(),
+  body("type", "Type is required").escape(),
+  body("manufacturer", "Manufacturer is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("element", "Element is required").escape(),
+  body("rarity", "Rarity is required").escape(),
+
+  // Process request after validaiton and sanitization
+  (req, res, next) => {
+    console.log("------PROCESSING REQUEST-------");
+    // Extract validation errors from request
+    const errors = validationResult(req);
+
+    // Create weapon object with data
+    const weapon = new Weapon({
+      name: req.body.name,
+      description: req.body.description,
+      manufacturer: req.body.manufacturer,
+      type: req.body.type,
+      element: req.body.element,
+      rarity: req.body.rarity,
+    });
+
+    console.log("NEW WEAPON:", weapon);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages
+
+      // Get all types, elements, and rarities for form
+      async.parallel(
+        {
+          types: function (cb) {
+            Type.find({}, cb).sort({ name: 1 });
+          },
+          elements: function (cb) {
+            Element.find({}, cb).sort({ name: 1 });
+          },
+          rarities: function (cb) {
+            Rarity.find({}, cb).sort({ level: 1 });
+          },
+        },
+        function (err, results) {
+          if (err) next(err);
+
+          // Mark selected genres as checked
+          for (let i = 0; i < results.elements.length; i++) {
+            if (weapon.element.indexOf(results.elements[i]._id) > -1) {
+              results.genres[i].checked = "true";
+            }
+          }
+          res.render("weaponForm", {
+            title: "Create Weapon",
+            types: results.types,
+            elements: results.elements,
+            rarities: results.rarities,
+            weapon: weapon,
+            errors: errars.array(),
+          });
+        }
+      );
+      return;
+    } else {
+      // Data from form is valid. Save weapon
+      weapon.save(function (err) {
+        if (err) next(err);
+        // Successful, redirect to new weapon
+        res.redirect(weapon.url);
+      });
+    }
+  },
+];
 
 // Display weapon delete form on GET
 exports.weaponDeleteGet = function (req, res, next) {
