@@ -27,6 +27,7 @@ block content
       select#type(type="select" name="type" required="true" value=(weapon === undefined ? "" : weapon.type))
         option(value="") Select type
         for type in types 
+
           if weapon
             option(value=type._id selected=(type._id.toString() === weapon.type._id.toString() ? "selected" : false)) #{type.name}
           else 

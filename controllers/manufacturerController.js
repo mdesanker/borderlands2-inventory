@@ -172,7 +172,6 @@ exports.manufacturerUpdateGet = async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
-  console.log("RESULTS", results);
   if (results == null) {
     const err = new Error("Manufacturer not found.");
     err.status = 404;

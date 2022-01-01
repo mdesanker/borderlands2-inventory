@@ -218,8 +218,55 @@ exports.weaponDeletePost = function (req, res, next) {
 };
 
 // Display weapon update form on GET
-exports.weaponUpdateGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon update GET");
+exports.weaponUpdateGet = async function (req, res, next) {
+  let results;
+  try {
+    results = await async.parallel({
+      weapon: function (cb) {
+        Weapon.findById(req.params.id, cb);
+      },
+      manufacturers: function (cb) {
+        Manufacturer.find({}, cb).sort({ name: 1 });
+      },
+      types: function (cb) {
+        Type.find({}, cb).sort({ name: 1 });
+      },
+      elements: function (cb) {
+        Element.find({}, cb).sort({ name: 1 });
+      },
+      rarities: function (cb) {
+        Rarity.find({}, cb).sort({ level: 1 });
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+  if (results.weapon == null) {
+    // Weapon not found
+    const err = new Error("Weapon not found");
+    err.status = 404;
+    return next(err);
+  }
+  // Mark selected elements as checked
+  for (let i = 0; i < results.elements.length; i++) {
+    for (let j = 0; j < results.weapon.element.length; j++) {
+      if (
+        results.elements[i]._id.toString() ===
+        results.weapon.element[j]._id.toString()
+      ) {
+        results.elements[i].checked = "true";
+      }
+    }
+  }
+  // Render weapon form with database info
+  res.render("weaponForm", {
+    title: "Update Weapon",
+    weapon: results.weapon,
+    manufacturers: results.manufacturers,
+    types: results.types,
+    elements: results.elements,
+    rarities: results.rarities,
+  });
 };
 
 // Display weapon update on POST
