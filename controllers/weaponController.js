@@ -197,7 +197,20 @@ exports.weaponCreatePost = [
 
 // Display weapon delete form on GET
 exports.weaponDeleteGet = function (req, res, next) {
-  res.render("weaponDelete");
+  async.parallel(
+    {
+      weapon: function (cb) {
+        Weapon.findById(req.params.id).exec(cb);
+      },
+    },
+    function (err, results) {
+      if (err) next(err);
+      res.render("weaponDelete", {
+        title: "Delete Weapon",
+        weapon: results.weapon,
+      });
+    }
+  );
 };
 
 // Display weapon delete on POST

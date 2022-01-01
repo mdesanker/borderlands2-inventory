@@ -3,22 +3,22 @@ extends layout
 block content 
   h1= title 
 
-  h2= detail.name
+  h2= weapon.name
 
   ul
-    li #[strong Type]: #{detail.type.name}
-    li #[strong Manufacturer]: #{detail.manufacturer.name}
+    li #[strong Type]: #{weapon.type.name}
+    li #[strong Manufacturer]: #{weapon.manufacturer.name}
     li #[strong Elements]:
-    if detail.element
-      each element in detail.element 
+    if weapon.element
+      each element in weapon.element 
         | #{element.name} 
     else 
       | None
-    li #[strong Rarity]: #{detail.rarity.name}
+    li #[strong Rarity]: #{weapon.rarity.name}
 
   p Do you really want to delete this weapon?
 
   form(method="POST" action="")
-    input#weaponid(type="hidden" name="weaponid" required="true" value=detail._id)
+    input#weaponid(type="hidden" name="weaponid" required="true" value=weapon._id)
 
     button(type="submit") Delete
