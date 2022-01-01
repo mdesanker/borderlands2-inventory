@@ -9,21 +9,23 @@ block content
       input#name(type="text" placeholder="Name" name="name" value=(weapon === undefined ? "" : weapon.name))
 
     .form-group 
-      label(for="description") Description:
+      label(for="description") Description: 
       input#description(type="text" placeholder="Description" name="description" value=(weapon === undefined ? "" : weapon.description))
 
     .form-group 
-      label(for="manufacturer") Manufacturer:
-      select#manufacturer(type="select" placeholder="Select manufacturer" name="manufacturer" required="true" value=(weapon === undefined ? "" : weapon.manufacturer))
+      label(for="manufacturer") Manufacturer: 
+      select#manufacturer(type="select" name="manufacturer" required="true" value=(weapon === undefined ? "" : weapon.manufacturer))
+        option(value="") Select manufacturer
         for manufacturer in manufacturers 
           if weapon
-            option(value=type._id selected=(manufacturer._id.toString() === weapon.manufacturer._id.toString() ? "selected" : false)) #{manufacturer.name}
+            option(value=manufacturer._id selected=(manufacturer._id.toString() === weapon.manufacturer._id.toString() ? "selected" : false)) #{manufacturer.name}
           else 
             option(value=manufacturer._id) #{manufacturer.name}
 
     .form-group 
-      label(for="type") Type:
-      select#type(type="select" placeholder="Select type" name="type" required="true" value=(weapon === undefined ? "" : weapon.type))
+      label(for="type") Type: 
+      select#type(type="select" name="type" required="true" value=(weapon === undefined ? "" : weapon.type))
+        option(value="") Select type
         for type in types 
           if weapon
             option(value=type._id selected=(type._id.toString() === weapon.type._id.toString() ? "selected" : false)) #{type.name}
@@ -31,7 +33,7 @@ block content
             option(value=type._id) #{type.name}
 
     .form-group 
-      label(for="element") Elements:
+      label(for="element") Elements: 
       div 
         for element in elements
           div(style="display: inline; padding-right: 10px;")
@@ -39,8 +41,9 @@ block content
             label(for=element._id) #{element.name}
 
     .form-group 
-      label(for="rarity") Rarity:
-      select#rarity(type="select" placeholder="Select rarity" name="rarity" required="true" value=(weapon === undefined ? "" : weapon.rarity))
+      label(for="rarity") Rarity: 
+      select#rarity(type="select" name="rarity" required="true" value=(weapon === undefined ? "" : weapon.rarity))
+        option(value="") Select rarity
         for rarity in rarities 
           if weapon 
             option(value=rarity._id selected=(rarity._id.toString() === weapon.rarity._id.toString() ? "selected" : false)) #{rarity.name}
