@@ -110,26 +110,26 @@ exports.manufacturerCreatePost = [
 ];
 
 // Display manufacturer delete form on GET
-exports.manufacturerDeleteGet = function (req, res, next) {
-  async.parallel(
-    {
+exports.manufacturerDeleteGet = async function (req, res, next) {
+  let results;
+  try {
+    results = await async.parallel({
       manufacturer: function (cb) {
         Manufacturer.findById(req.params.id).exec(cb);
       },
       weapons: function (cb) {
         Weapon.find({ manufacturer: req.params.id }).exec(cb);
       },
-    },
-    function (err, results) {
-      if (err) next(err);
-      if (results.manufacturer == null) res.redirect("/catalog/manufacturers");
-      res.render("manufacturerDelete", {
-        title: "Delete Manufacturer",
-        manufacturer: results.manufacturer,
-        weapons: results.weapons,
-      });
-    }
-  );
+    });
+  } catch (err) {
+    return next(err);
+  }
+  if (results.manufacturer == null) res.redirect("/catalog/manufacturers");
+  res.render("manufacturerDelete", {
+    title: "Delete Manufacturer",
+    manufacturer: results.manufacturer,
+    weapons: results.weapons,
+  });
 };
 
 // Display manufacturer delete on POST
