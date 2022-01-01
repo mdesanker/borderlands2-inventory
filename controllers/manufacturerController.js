@@ -133,8 +133,35 @@ exports.manufacturerDeleteGet = async function (req, res, next) {
 };
 
 // Display manufacturer delete on POST
-exports.manufacturerDeletePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer delete POST");
+exports.manufacturerDeletePost = async function (req, res, next) {
+  let results;
+  try {
+    results = await async.parallel({
+      manufacturer: function (cb) {
+        Manufacturer.findById(req.params.id).exec(cb);
+      },
+      weapons: function (cb) {
+        Weapon.find({ manufacturer: req.params.id }).exec(cb);
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+  if (results.weapons.length > 0) {
+    res.render("manufacturerDelete", {
+      title: "Delete Manufacturer",
+      manufacturer: results.manufacturer,
+      weapons: results.weapons,
+    });
+    return;
+  }
+  Manufacturer.findByIdAndRemove(
+    req.body.manufacturerid,
+    function deleteManufacturer(err) {
+      if (err) next(err);
+      res.redirect("/catalog/manufacturers");
+    }
+  );
 };
 
 // Display manufacturer update form on GET
