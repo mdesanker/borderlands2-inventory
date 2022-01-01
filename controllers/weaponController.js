@@ -79,6 +79,9 @@ exports.weaponCreateGet = async function (req, res, next) {
   let results;
   try {
     results = await async.parallel({
+      manufacturers: function (cb) {
+        Manufacturer.find({}, cb).sort({ name: 1 });
+      },
       types: function (cb) {
         Type.find({}, cb).sort({ name: 1 });
       },
@@ -94,6 +97,7 @@ exports.weaponCreateGet = async function (req, res, next) {
   }
   res.render("weaponForm", {
     title: "Create Weapon",
+    manufacturers: results.manufacturers,
     types: results.types,
     elements: results.elements,
     rarities: results.rarities,

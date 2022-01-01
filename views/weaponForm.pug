@@ -14,7 +14,12 @@ block content
 
     .form-group 
       label(for="manufacturer") Manufacturer:
-      input#manufacturer(type="text" placeholder="Manufacturer" name="manufacturer" value=(weapon === undefined ? "" : weapon.manufacturer))
+      select#manufacturer(type="select" placeholder="Select manufacturer" name="manufacturer" required="true" value=(weapon === undefined ? "" : weapon.manufacturer))
+        for manufacturer in manufacturers 
+          if weapon
+            option(value=type._id selected=(manufacturer._id.toString() === weapon.manufacturer._id.toString() ? "selected" : false)) #{manufacturer.name}
+          else 
+            option(value=manufacturer._id) #{manufacturer.name}
 
     .form-group 
       label(for="type") Type:
