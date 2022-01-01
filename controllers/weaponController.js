@@ -196,21 +196,17 @@ exports.weaponCreatePost = [
 ];
 
 // Display weapon delete form on GET
-exports.weaponDeleteGet = function (req, res, next) {
-  async.parallel(
-    {
-      weapon: function (cb) {
-        Weapon.findById(req.params.id).exec(cb);
-      },
-    },
-    function (err, results) {
-      if (err) next(err);
-      res.render("weaponDelete", {
-        title: "Delete Weapon",
-        weapon: results.weapon,
-      });
-    }
-  );
+exports.weaponDeleteGet = async function (req, res, next) {
+  let result;
+  try {
+    result = await Weapon.findById(req.params.id).populate(
+      "type manufacturer element rarity"
+    );
+  } catch (err) {
+    return next(err);
+  }
+
+  res.render("weaponDelete", { title: "Delete Weapon", weapon: result });
 };
 
 // Display weapon delete on POST
