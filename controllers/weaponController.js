@@ -279,7 +279,6 @@ exports.weaponUpdatePost = [
       } else {
         req.body.element = new Array(req.body.element);
       }
-      console.log(req.body);
     }
     next();
   },
@@ -292,7 +291,7 @@ exports.weaponUpdatePost = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("element", "Element is required").escape(),
+  body("element.*").escape(),
   body("rarity", "Rarity is required").escape(),
 
   // Process request after validaiton and sanitization
