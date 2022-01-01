@@ -197,7 +197,7 @@ exports.weaponCreatePost = [
 
 // Display weapon delete form on GET
 exports.weaponDeleteGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon delete GET");
+  res.render("weaponDelete");
 };
 
 // Display weapon delete on POST
