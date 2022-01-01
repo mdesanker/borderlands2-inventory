@@ -12,6 +12,9 @@ block content
       textarea#description(placeholder="Description" name="description" rows="5" cols="30" value=(description === undefined ? "" : manufacturer.description))
     button(type="submit") Submit
 
+    p 
+      a(href="/catalog/manufacturers") Return
+
   if errors 
     ul 
       for error in errors 
