@@ -165,8 +165,23 @@ exports.manufacturerDeletePost = async function (req, res, next) {
 };
 
 // Display manufacturer update form on GET
-exports.manufacturerUpdateGet = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer update GET");
+exports.manufacturerUpdateGet = async function (req, res, next) {
+  let results;
+  try {
+    results = await Manufacturer.findById(req.params.id);
+  } catch (err) {
+    return next(err);
+  }
+  console.log("RESULTS", results);
+  if (results == null) {
+    const err = new Error("Manufacturer not found.");
+    err.status = 404;
+    return next(err);
+  }
+  res.render("manufacturerForm", {
+    title: "Update Manufacturer",
+    manufacturer: results,
+  });
 };
 
 // Display manufacturer update on POST
