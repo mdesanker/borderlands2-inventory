@@ -4,12 +4,15 @@ block content
   h1= title 
 
   form(method="POST" action="")
+
     .form-group
       label(for="name") Name: 
       input#name(type="text" placeholder="Name" name="name" value=(manufacturer === undefined ? "" : manufacturer.name))
+
     .form-group 
       label(for="description") Description:
-      textarea#description(placeholder="Description" name="description" rows="5" cols="30" value=(description === undefined ? "" : manufacturer.description))
+      input#description(placeholder="Description" name="description" rows="5" cols="30" value=(manufacturer === undefined ? "" : manufacturer.description))
+
     button(type="submit") Submit
 
     p 

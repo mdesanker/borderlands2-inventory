@@ -68,7 +68,7 @@ exports.manufacturerCreatePost = [
     const errors = validationResult(req);
     console.log("ERRORS", errors);
 
-    // Create a genre object with escaped and trimmed data
+    // Create a manufacturer object with escaped and trimmed data
     const manufacturer = new Manufacturer({
       name: req.body.name,
       description: req.body.description,
@@ -185,6 +185,46 @@ exports.manufacturerUpdateGet = async function (req, res, next) {
 };
 
 // Display manufacturer update on POST
-exports.manufacturerUpdatePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Manufacturer update POST");
-};
+exports.manufacturerUpdatePost = [
+  // Validate and sanitize the fields
+  body("name", "Manufacturer name required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description").optional({ checkFalsy: true }).trim().escape(),
+
+  // Process request after validation and sanitization
+  (req, res, next) => {
+    // Extract validation errors from req
+    const errors = validationResult(req);
+
+    // Create a manufacturer object with escaped and trimmed data
+    const manufacturer = new Manufacturer({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form with sanitized values/error msgs
+      res.render("manufacturerForm", {
+        title: "Create Manufacturer",
+        manufacturer: manufacturer,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form valid
+      // Update the record
+      Manufacturer.findByIdAndUpdate(
+        req.params.id,
+        manufacturer,
+        {},
+        function (err, theManufacturer) {
+          if (err) next(err);
+          res.redirect(theManufacturer.url);
+        }
+      );
+    }
+  },
+];
