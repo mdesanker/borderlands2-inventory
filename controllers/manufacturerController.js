@@ -207,7 +207,7 @@ exports.manufacturerUpdatePost = [
     if (!errors.isEmpty()) {
       // There are errors. Render form with sanitized values/error msgs
       res.render("manufacturerForm", {
-        title: "Create Manufacturer",
+        title: "Update Manufacturer",
         manufacturer: manufacturer,
         errors: errors.array(),
       });

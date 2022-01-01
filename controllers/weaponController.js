@@ -167,10 +167,10 @@ exports.weaponCreatePost = [
         function (err, results) {
           if (err) next(err);
 
-          // Mark selected genres as checked
+          // Mark selected elements as checked
           for (let i = 0; i < results.elements.length; i++) {
             if (weapon.element.indexOf(results.elements[i]._id) > -1) {
-              results.genres[i].checked = "true";
+              results.elements[i].checked = "true";
             }
           }
           res.render("weaponForm", {
@@ -179,7 +179,7 @@ exports.weaponCreatePost = [
             elements: results.elements,
             rarities: results.rarities,
             weapon: weapon,
-            errors: errars.array(),
+            errors: errors.array(),
           });
         }
       );
@@ -270,6 +270,97 @@ exports.weaponUpdateGet = async function (req, res, next) {
 };
 
 // Display weapon update on POST
-exports.weaponUpdatePost = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: Weapon update POST");
-};
+exports.weaponUpdatePost = [
+  // Convert elements to an array
+  (req, res, next) => {
+    if (!(req.body.element instanceof Array)) {
+      if (typeof req.body.element === "undefined") {
+        req.body.element = [];
+      } else {
+        req.body.element = new Array(req.body.element);
+      }
+      console.log(req.body);
+    }
+    next();
+  },
+
+  // Validate and sanitize
+  body("name", "Name is required").trim().isLength({ min: 1 }).escape(),
+  body("description").optional({ checkFalsy: true }).trim().escape(),
+  body("type", "Type is required").escape(),
+  body("manufacturer", "Manufacturer is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("element", "Element is required").escape(),
+  body("rarity", "Rarity is required").escape(),
+
+  // Process request after validaiton and sanitization
+  (req, res, next) => {
+    // Extract validation errors from request
+    const errors = validationResult(req);
+
+    // Create weapon object with data
+    const weapon = new Weapon({
+      name: req.body.name,
+      description: req.body.description,
+      manufacturer: req.body.manufacturer,
+      type: req.body.type,
+      element: req.body.element,
+      rarity: req.body.rarity,
+      _id: req.params.id,
+    });
+
+    console.log("NEW WEAPON:", weapon);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages
+
+      // Get all types, elements, and rarities for form
+      async.parallel(
+        {
+          types: function (cb) {
+            Type.find({}, cb).sort({ name: 1 });
+          },
+          elements: function (cb) {
+            Element.find({}, cb).sort({ name: 1 });
+          },
+          rarities: function (cb) {
+            Rarity.find({}, cb).sort({ level: 1 });
+          },
+        },
+        function (err, results) {
+          if (err) next(err);
+
+          // Mark selected elements as checked
+          for (let i = 0; i < results.elements.length; i++) {
+            if (weapon.element.indexOf(results.elements[i]._id) > -1) {
+              results.elements[i].checked = "true";
+            }
+          }
+          res.render("weaponForm", {
+            title: "Update Weapon",
+            types: results.types,
+            elements: results.elements,
+            rarities: results.rarities,
+            weapon: weapon,
+            errors: errors.array(),
+          });
+        }
+      );
+      return;
+    } else {
+      // Data from form is valid.
+      // Update record
+      Weapon.findByIdAndUpdate(
+        req.params.id,
+        weapon,
+        {},
+        function (err, theWeapon) {
+          if (err) next(err);
+          res.redirect(theWeapon.url);
+        }
+      );
+    }
+  },
+];
