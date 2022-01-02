@@ -1,5 +1,8 @@
 extends layout 
 
+block links
+  link(rel="stylesheet", href="/stylesheets/weaponList.css") 
+
 block content 
   h1= title 
 
@@ -8,19 +11,20 @@ block content
 
   ul 
     each weapon in list 
-      li 
-        a(href=weapon.url) #{weapon.name}
+      li.container
+        a.card(href=weapon.url)         
+          p#name #{weapon.name}
 
-        ul
-          li #[strong Type]: #{weapon.type.name}
-          li #[strong Manufacturer]: #{weapon.manufacturer.name}
-          li #[strong Elements]:
-          if weapon.element
-            each element in weapon.element 
-              | #{element.name} 
-          else 
-            | None
-          li #[strong Rarity]: #{weapon.rarity.name}
+          ul#details
+            li #[strong Type]: #{weapon.type.name}
+            li #[strong Manufacturer]: #{weapon.manufacturer.name}
+            li #[strong Elements]:
+            if weapon.element
+              each element in weapon.element 
+                | #{element.name} 
+            else 
+              | None
+            li #[strong Rarity]: #{weapon.rarity.name}
 
     else 
       li There are no weapons.
