@@ -1,5 +1,6 @@
-ul {
+.list-wrapper {
   display: flex;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 .container {
@@ -8,13 +9,14 @@ ul {
 
 .card {
   min-width: 250px;
+  max-width: 30vw;
   background-color: white;
   text-decoration: none;
   color: black;
   padding: 16px 10px 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 1rem;
+  margin: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,6 +40,18 @@ ul {
   gap: 5px;
 }
 
-.card ul li {
+.card #details > li {
   list-style: none;
+}
+
+.element-list {
+  list-style-position: inside;
+  list-style: none;
+}
+
+.element-list li::before {
+  content: "\2022";
+  color: black;
+  font-weight: bold;
+  margin-left: 0.5rem;
 }

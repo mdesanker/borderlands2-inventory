@@ -9,7 +9,7 @@ block content
   p 
     a(href="/catalog/weapon/create") Add a weapon
 
-  ul 
+  ul.list-wrapper 
     each weapon in list 
       li.container
         a.card(href=weapon.url)         
@@ -18,12 +18,13 @@ block content
           ul#details
             li #[strong Type]: #{weapon.type.name}
             li #[strong Manufacturer]: #{weapon.manufacturer.name}
-            li #[strong Elements]:
-            if weapon.element
-              each element in weapon.element 
-                | #{element.name} 
-            else 
-              | None
+            li #[strong Elements]: 
+              ul.element-list
+                if weapon.element
+                  each element, index in weapon.element 
+                    li.element(style=`color: ${element.color}`)  #{element.name}
+                else 
+                  li None
             li #[strong Rarity]: #{weapon.rarity.name}
 
     else 
