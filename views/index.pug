@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to the #[em Borderlands 2 Database], where you can sort items by manufacturer, type, element, and rarity.
+  p Welcome to the #[em Borderlands 2] database. Sort weapons from the  video game by manufacturer, type, element, and rarity.
 
   h2 Inventory 
 
@@ -11,7 +11,7 @@ block content
   else 
     p The inventory has the following record counts: 
 
-    ul 
+    ul.list 
       li #[strong Weapons:] #{data.weaponCount} 
       li #[strong Manufacturers:] #{data.manufacturerCount} 
       li #[strong Types:] #{data.typeCount}  

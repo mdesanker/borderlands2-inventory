@@ -8,6 +8,7 @@ html
     link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
     link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block scripts
   body
     header 
       nav 
@@ -26,4 +27,5 @@ html
             a(href="/catalog/elements") Elements 
           li 
             a(href="/catalog/rarities") Rarities
-    block content
+    main 
+      block content
